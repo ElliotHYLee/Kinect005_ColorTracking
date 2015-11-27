@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_PropertySheetDisplayName>openNI_NITE_GLUT_openCV</_PropertySheetDisplayName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(NITE2_INCLUDE);$(OPENNI2_INCLUDE);$(OPENCV_BUILD)\include;C:\glut;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(NITE2_LIB);$(OPENNI2_LIB);$(OPENCV_BUILD)\x86\vc12\lib;C:\glut;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenNI2.lib;NiTE2.lib;opencv_ts300.lib;opencv_world300.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy  "%OPENNI2_REDIST%*" "$(OutDir)" /y /s /e /i /d
+xcopy  "%NITE2_REDIST%*" "$(OutDir)" /y /s /e /i /d
+xcopy  "C:\glut" "$(OutDir)" /y  /d</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
