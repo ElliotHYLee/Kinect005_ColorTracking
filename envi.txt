@@ -1,0 +1,5 @@
+OPENCV_DIR
+C:\opencv\opencv300\build\x86\vc12
+
+OPENCV_BUILD
+C:\opencv\opencv300\build
