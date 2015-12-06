@@ -26,7 +26,7 @@ using namespace cv;
 
 int relX, relY, relZ;
 float actX, actY, actZ, prevActX, prevActY, prevActZ;
-
+float actZArr[5];
 
 
 int window_w = 640;
@@ -387,19 +387,34 @@ void colorFrameProcess(VideoFrameRef colorFrame)
 
 void depthFrameProcess(VideoFrameRef depthFrame)
 {
+	DepthPixel* pixelAtTheColor[5];
 
+	pixelAtTheColor[0] = (DepthPixel*)((char*)depthFrame.getData() + ((relY)* depthFrame.getStrideInBytes())) + relX -1;
+	pixelAtTheColor[1] = (DepthPixel*)((char*)depthFrame.getData() + (relY* depthFrame.getStrideInBytes())) + relX;
+	pixelAtTheColor[2] = (DepthPixel*)((char*)depthFrame.getData() + ((relY)* depthFrame.getStrideInBytes())) + relX+ 1;
+	pixelAtTheColor[3] = (DepthPixel*)((char*)depthFrame.getData() + ((relY-1)* depthFrame.getStrideInBytes())) + relX;
+	pixelAtTheColor[4] = (DepthPixel*)((char*)depthFrame.getData() + ((relY + 1)* depthFrame.getStrideInBytes())) + relX;
+	
+	std::cout << "relX= " << relX << std::endl;
 
-	DepthPixel* centerPixel = (DepthPixel*)((char*)depthFrame.getData() + (relY* depthFrame.getStrideInBytes())) + relX;
-	if ((float)(*centerPixel) != 0)
+	
+
+	if ((float)(*pixelAtTheColor[1]) != 0)
 	{
-		status = CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*centerPixel), &actX, &actY, &actZ);
-
+		//CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZ);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX-1), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[0]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[1]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX+1), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[2]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY-1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[3]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY+1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[4]);
 
 		//std::cout << "relX = " << relX << " relY = " << relY << " relZ = " << *centerPixel << "\n";
 
+		actZ = actZArr[0] + actZArr[1] + actZArr[2] + actZArr[3] + actZArr[4];
+		actZ /= 5;
 
 
-		int a = 0.95;
+		int a = 0.96;
 		prevActX = a*prevActX + (1 - a)*actX;
 		prevActY = a*prevActY + (1 - a)*actY;
 		prevActZ = a*prevActZ + (1 - a)*actZ;
