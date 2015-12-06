@@ -27,13 +27,10 @@ using namespace cv;
 
 int relX, relY, relZ;
 float actX, actY, actZ, prevActX, prevActY, prevActZ;
-<<<<<<< HEAD
 
 double lpTimeStep;
-=======
 float actZArr[5];
 
->>>>>>> origin/master
 
 int window_w = 640;
 int window_h = 480;
@@ -400,16 +397,7 @@ void colorFrameProcess(VideoFrameRef colorFrame)
 
 void depthFrameProcess(VideoFrameRef depthFrame)
 {
-<<<<<<< HEAD
-	DepthPixel* centerPixel = (DepthPixel*)((char*)depthFrame.getData() + (relY* depthFrame.getStrideInBytes())) + relX;
-	if ((float)(*centerPixel) != 0)
-	{
-		status = CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*centerPixel), &actX, &actY, &actZ);
 
-		//std::cout << "relX = " << relX << " relY = " << relY << " relZ = " << *centerPixel << "\n";
-
-		int a = 0.95;
-=======
 	DepthPixel* pixelAtTheColor[5];
 
 	pixelAtTheColor[0] = (DepthPixel*)((char*)depthFrame.getData() + ((relY)* depthFrame.getStrideInBytes())) + relX -1;
@@ -438,7 +426,7 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 
 
 		int a = 0.96;
->>>>>>> origin/master
+
 		prevActX = a*prevActX + (1 - a)*actX;
 		prevActY = a*prevActY + (1 - a)*actY;
 		prevActZ = a*prevActZ + (1 - a)*actZ;
