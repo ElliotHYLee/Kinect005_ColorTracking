@@ -4,6 +4,7 @@
 #include <stdlib.h>     /* abs */
 #include <iostream>
 #include <iomanip>
+#include <chrono>
 
 // OpenNI2 headers
 #include <OpenNI.h>
@@ -26,6 +27,8 @@ using namespace cv;
 
 int relX, relY, relZ;
 float actX, actY, actZ, prevActX, prevActY, prevActZ;
+
+double lpTimeStep;
 float actZArr[5];
 
 
@@ -88,6 +91,8 @@ void gl_DisplayCallback();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	lpTimeStep = 0;
+
 	relX = 0;
 	relY = 0;
 	relZ = 0;
@@ -276,7 +281,6 @@ int primaryLoop(int a, _TCHAR* b[])
 	return 0;
 }
 
-
 //openGL functions
 void gl_KeyboardCallback(unsigned char key, int x, int y)
 {
@@ -308,11 +312,11 @@ void gl_IdleCallback()
 	glutPostRedisplay();
 }
 
-
 void gl_DisplayCallback()
 {
 	if (depthSensor.isValid() && colorSensor.isValid())
 	{
+		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 		// get depth and color image
 		status = depthSensor.readFrame(&newFrame_depth);
 		status = colorSensor.readFrame(&newFrame_color);
@@ -322,9 +326,16 @@ void gl_DisplayCallback()
 		// all algorithm for color process
 		colorFrameProcess(newFrame_color);
 
-
 		// all algorithm for depth process
 		depthFrameProcess(newFrame_depth);
+		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+
+		double duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+		
+		lpTimeStep = 0.95*lpTimeStep + 0.05*duration;
+
+		std::cout << lpTimeStep << " milli second " << 1000/lpTimeStep << " Hz \n";
 	}
 }
 
@@ -384,9 +395,9 @@ void colorFrameProcess(VideoFrameRef colorFrame)
 	imshow("color", imgTmp);
 }
 
-
 void depthFrameProcess(VideoFrameRef depthFrame)
 {
+
 	DepthPixel* pixelAtTheColor[5];
 
 	pixelAtTheColor[0] = (DepthPixel*)((char*)depthFrame.getData() + ((relY)* depthFrame.getStrideInBytes())) + relX -1;
@@ -415,16 +426,17 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 
 
 		int a = 0.96;
+
 		prevActX = a*prevActX + (1 - a)*actX;
 		prevActY = a*prevActY + (1 - a)*actY;
 		prevActZ = a*prevActZ + (1 - a)*actZ;
 
-		std::cout << std::fixed;
+		/*std::cout << std::fixed;
 		std::cout << std::setprecision(1);
-		std::cout << std::setw(10) << "actX = " << prevActX / 10
-			<< std::setw(10) << "actY = " << prevActY / 10
-			<< std::setw(10) << "actZ = " << prevActZ / 10
-			<< "\n";
+		std::cout << std::setw(10) << "actX = " << prevActX 
+			<< std::setw(10) << "actY = " << prevActY 
+			<< std::setw(10) << "actZ = " << prevActZ 
+			<< " in milli meters \n";*/
 	}
 
 
@@ -432,8 +444,6 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 	depthMonitor(depthFrame);
 
 }
-
-
 
 void depthMonitor(VideoFrameRef newFrame)
 {
@@ -565,11 +575,9 @@ void depthMonitor(VideoFrameRef newFrame)
 	}
 }
 
-
 double glMin(double a, double b) {
 	return (((a) < (b)) ? (a) : (b));
 }
-
 
 void colorDetection(Mat *img)
 {
@@ -577,14 +585,11 @@ void colorDetection(Mat *img)
 	//imshow("Original", *img);
 	Mat imgHSV;
 
-
 	Mat imgThresholded;
-
-
 
 	cvtColor(*img, imgHSV, COLOR_BGR2HSV); //Convert the captured frame from BGR to HSV
 
-										   //Threshold the image
+	//Threshold the image
 	inRange(imgHSV, Scalar(iLowH, iLowS, iLowV), Scalar(iHighH, iHighS, iHighV), imgThresholded);
 
 	//morphological opening (removes small objects from the foreground)
@@ -620,11 +625,11 @@ void colorDetection(Mat *img)
 			circle(imgLines, Point(posX, posY), r / 13, Scalar(0, 255, 255), 2);
 
 			//vertical lines
-			line(imgLines, Point(imgLines.size().width / 2, imgLines.size().height / 2 - 20), Point(imgLines.size().width / 2, imgLines.size().height / 2 - 10), Scalar(255, 255, 255), 2);
-			line(imgLines, Point(imgLines.size().width / 2, imgLines.size().height / 2 + 10), Point(imgLines.size().width / 2, imgLines.size().height / 2 + 20), Scalar(255, 255, 255), 2);
+			line(imgLines, Point(imgLines.size().width / 2, imgLines.size().height / 2 - 20), Point(imgLines.size().width / 2, imgLines.size().height / 2 - 10), Scalar(255, 255, 255), 3);
+			line(imgLines, Point(imgLines.size().width / 2, imgLines.size().height / 2 + 10), Point(imgLines.size().width / 2, imgLines.size().height / 2 + 20), Scalar(255, 255, 255), 3);
 			// horizontal lines
-			line(imgLines, Point(imgLines.size().width / 2 - 20, imgLines.size().height / 2), Point(imgLines.size().width / 2 - 10, imgLines.size().height / 2), Scalar(255, 255, 255), 2);
-			line(imgLines, Point(imgLines.size().width / 2 + 20, imgLines.size().height / 2), Point(imgLines.size().width / 2 + 10, imgLines.size().height / 2), Scalar(255, 255, 255), 2);
+			line(imgLines, Point(imgLines.size().width / 2 - 20, imgLines.size().height / 2), Point(imgLines.size().width / 2 - 10, imgLines.size().height / 2), Scalar(255, 255, 255), 3);
+			line(imgLines, Point(imgLines.size().width / 2 + 20, imgLines.size().height / 2), Point(imgLines.size().width / 2 + 10, imgLines.size().height / 2), Scalar(255, 255, 255), 3);
 		}
 
 		relX = posX;
