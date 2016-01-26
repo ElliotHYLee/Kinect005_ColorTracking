@@ -1,26 +1,26 @@
-﻿Build started 12/5/2015 10:55:06 PM.
-     1>Project "D:\GitHub\Kinect005_ColorTracking\Kinect005_ColorTracking\Kinect005_ColorTracking.vcxproj" on node 2 (Build target(s)).
+﻿Build started 1/11/2016 12:01:40 PM.
+     1>Project "D:\Github\Kinect005_ColorTracking\Kinect005_ColorTracking\Kinect005_ColorTracking.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\PrimeSense\NiTE2\Include\\" /I"C:\Program Files (x86)\OpenNI2\Include\\" /IC:\opencv\opencv300\build\include /IC:\glut /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
          Source.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitHub\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Program Files (x86)\PrimeSense\NiTE2\Lib\\" /LIBPATH:"C:\Program Files (x86)\OpenNI2\Lib\\" /LIBPATH:C:\opencv\opencv300\build\x86\vc12\lib /LIBPATH:C:\glut OpenNI2.lib NiTE2.lib opencv_ts300.lib opencv_world300.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\GitHub\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitHub\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.lib" /MACHINE:X86 /SAFESEH:NO Release\Source.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Github\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Program Files (x86)\PrimeSense\NiTE2\Lib\\" /LIBPATH:"C:\Program Files (x86)\OpenNI2\Lib\\" /LIBPATH:C:\opencv\opencv300\build\x86\vc12\lib /LIBPATH:C:\glut OpenNI2.lib NiTE2.lib opencv_ts300.lib opencv_world300.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Github\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Github\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.lib" /MACHINE:X86 /SAFESEH:NO Release\Source.obj
          Generating code
-         17 of 163 functions (10.4%) were compiled, the rest were copied from previous compilation.
-           1 functions were new in current compilation
-           4 functions had inline decision re-evaluated but remain unchanged
+         156 of 163 functions (95.7%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
          Finished generating code
-         Kinect005_ColorTracking.vcxproj -> D:\GitHub\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe
+         Kinect005_ColorTracking.vcxproj -> D:\Github\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe
        PostBuildEvent:
-         xcopy  "%OPENNI2_REDIST%*" "D:\GitHub\Kinect005_ColorTracking\Release\" /y /s /e /i /d
-         xcopy  "%NITE2_REDIST%*" "D:\GitHub\Kinect005_ColorTracking\Release\" /y /s /e /i /d
-         xcopy  "C:\glut" "D:\GitHub\Kinect005_ColorTracking\Release\" /y  /d
+         xcopy  "%OPENNI2_REDIST%*" "D:\Github\Kinect005_ColorTracking\Release\" /y /s /e /i /d
+         xcopy  "%NITE2_REDIST%*" "D:\Github\Kinect005_ColorTracking\Release\" /y /s /e /i /d
+         xcopy  "C:\glut" "D:\Github\Kinect005_ColorTracking\Release\" /y  /d
          :VCEnd
          0 File(s) copied
          0 File(s) copied
          0 File(s) copied
-     1>Done Building Project "D:\GitHub\Kinect005_ColorTracking\Kinect005_ColorTracking\Kinect005_ColorTracking.vcxproj" (Build target(s)).
+     1>Done Building Project "D:\Github\Kinect005_ColorTracking\Kinect005_ColorTracking\Kinect005_ColorTracking.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.36
+Time Elapsed 00:00:09.07
