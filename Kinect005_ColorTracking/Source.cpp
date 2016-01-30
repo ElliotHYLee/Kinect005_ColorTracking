@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <chrono>
 
+
 // OpenNI2 headers
 #include <OpenNI.h>
 #include <NiTE.h>
@@ -335,7 +336,7 @@ void gl_DisplayCallback()
 		
 		lpTimeStep = 0.95*lpTimeStep + 0.05*duration;
 
-		std::cout << lpTimeStep << " milli second " << 1000/lpTimeStep << " Hz \n";
+		//std::cout << lpTimeStep << " milli second " << 1000/lpTimeStep << " Hz \n";
 	}
 }
 
@@ -406,7 +407,7 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 	pixelAtTheColor[3] = (DepthPixel*)((char*)depthFrame.getData() + ((relY-1)* depthFrame.getStrideInBytes())) + relX;
 	pixelAtTheColor[4] = (DepthPixel*)((char*)depthFrame.getData() + ((relY + 1)* depthFrame.getStrideInBytes())) + relX;
 	
-	std::cout << "relX= " << relX << std::endl;
+	//std::cout << "relX= " << relX << std::endl;
 
 	
 
@@ -431,12 +432,14 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 		prevActY = a*prevActY + (1 - a)*actY;
 		prevActZ = a*prevActZ + (1 - a)*actZ;
 
-		/*std::cout << std::fixed;
+		/*
+		std::cout << std::fixed;
 		std::cout << std::setprecision(1);
 		std::cout << std::setw(10) << "actX = " << prevActX 
 			<< std::setw(10) << "actY = " << prevActY 
 			<< std::setw(10) << "actZ = " << prevActZ 
-			<< " in milli meters \n";*/
+			<< " in milli meters \n";
+			*/
 	}
 
 
