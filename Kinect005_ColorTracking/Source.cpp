@@ -5,7 +5,9 @@
 #include <iostream>
 #include <iomanip>
 #include <chrono>
-
+// Serial Communication
+#include "serialcomm.h"
+#include <string>
 
 // OpenNI2 headers
 #include <OpenNI.h>
@@ -49,14 +51,16 @@ int iHighS;
 int iLowV;
 int iHighV;
 
-
-
 Device device;
 VideoStream colorSensor;
 VideoStream depthSensor;
 VideoFrameRef newFrame_depth;
 VideoFrameRef newFrame_color;
 Status status = STATUS_OK;
+
+//usb
+CSerialComm serialComm;
+std::string messageX, messageY, messageZ;
 
 long timeDiff;
 
@@ -71,6 +75,10 @@ uint64_t dOld, dNew, dDt, cOld, cNew, cDt, dcDt[100], avg, maxavg;
 
 
 // general function headers
+void initiateUSBCommunication();
+void sendCoordinateMsg();
+
+
 char ReadLastCharOfLine();
 bool HandleStatus(Status status);
 int prepareKinect();
@@ -129,6 +137,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		dcDt[i] = 0;
 	}
+
+
+	//usb
+	initiateUSBCommunication();
+
+
 	// kinect connection
 	if (prepareKinect()) return 1;
 	// depth stream starts
@@ -145,6 +159,42 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 
+}
+
+void initiateUSBCommunication()
+{
+	// SerialPort Polling
+
+	int baudRate = 115200;
+	string a = "COM00";
+	char *cstr = new char[a.length() + 1];
+	int comPortNumber = 0;
+	for (comPortNumber = 0; comPortNumber < 30; comPortNumber++)
+	{
+		a = "COM" + std::to_string(comPortNumber);
+		strcpy_s(cstr, a.length() + 1, a.c_str());
+		if (serialComm.connect(cstr, baudRate))
+		{
+			cout << "COM" << comPortNumber << " is available." << endl;
+			serialComm.disconnect();
+		}
+	}
+
+	cout << "Type the port number to connect ex: 1" << endl;
+	cin >> comPortNumber;
+
+	// Serial Port Connection
+	a = "COM" + std::to_string(comPortNumber);
+	strcpy_s(cstr, a.length() + 1, a.c_str());
+	if (serialComm.connect(cstr, baudRate))
+	{
+		cout << "connected" << endl;
+	}
+	else
+	{
+		cout << "connection failed" << endl;
+	}
+	delete[] cstr;
 }
 
 char ReadLastCharOfLine()
@@ -432,19 +482,89 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 		prevActY = a*prevActY + (1 - a)*actY;
 		prevActZ = a*prevActZ + (1 - a)*actZ;
 
-		/*
-		std::cout << std::fixed;
-		std::cout << std::setprecision(1);
-		std::cout << std::setw(10) << "actX = " << prevActX 
-			<< std::setw(10) << "actY = " << prevActY 
-			<< std::setw(10) << "actZ = " << prevActZ 
-			<< " in milli meters \n";
-			*/
+		sendCoordinateMsg();
 	}
 
 
 	// window setting and show 
 	depthMonitor(depthFrame);
+
+}
+
+
+void sendCoordinateMsg()
+{
+	int val = 0;
+
+	if (prevActX >= 0)
+	{
+		val = (int)(prevActX + 0.5);
+		if      (val < 10) messageX = "l100" + std::to_string(val);
+		else if	(val <100) messageX = "l10"  + std::to_string(val);
+		else if (val<1000) messageX = "l1"   + std::to_string(val);
+	}
+	else
+	{
+		val = -1*(int)(prevActX - 0.5);
+		if      (val < 10) messageX = "l200" + std::to_string(val);
+		else if (val <100) messageX = "l20"  + std::to_string(val);
+		else if (val<1000) messageX = "l2"   + std::to_string(val);
+	}
+
+	if (prevActY >= 0)
+	{
+		val = (int)(prevActY + 0.5);
+		if      (val < 10) messageY = "l100" + std::to_string(val);
+		else if (val <100) messageY = "l10"  + std::to_string(val);
+		else if (val<1000) messageY = "l1"   + std::to_string(val);
+	}
+	else
+	{
+		val = -1 * (int)(prevActY - 0.5);
+		if      (val < 10) messageY = "l200" + std::to_string(val);
+		else if (val <100) messageY = "l20"  + std::to_string(val);
+		else if (val<1000) messageY = "l2"   + std::to_string(val);
+	}
+
+
+	if (prevActZ >= 0)
+	{
+		val = (int)(prevActZ + 0.5);
+		if      (val < 10) messageZ = "l100" + std::to_string(val);
+		else if (val <100) messageZ = "l10"  + std::to_string(val);
+		else if (val<1000) messageZ = "l1"   + std::to_string(val);
+	}
+	else
+	{
+		val = -1 * (int)(prevActZ - 0.5);
+		if      (val < 10) messageZ = "l200" + std::to_string(val);
+		else if (val <100) messageZ = "l20"  + std::to_string(val);
+		else if (val<1000) messageZ = "l2"   + std::to_string(val);
+	}
+	serialComm.sendString(messageX);
+	serialComm.sendString(messageY);
+	serialComm.sendString(messageZ);
+
+	/*
+	if (prevActX >= 0) messageX = "l1" + std::to_string((int) (prevActX+0.5));
+	else messageX = "l2" + std::to_string((int) (-1 * prevActX -0.5));
+	serialComm.sendString(messageX);
+
+	if (prevActY >= 0) messageY = "l3" + std::to_string((int)(prevActY +0.5));
+	else messageY = "l4" + std::to_string((int)(-1 * prevActY-0.5));
+	serialComm.sendString(messageY);
+
+	if (prevActZ >= 0) messageZ = "l5" + std::to_string((int)(prevActZ+0.5));
+	else messageZ = "l6" + std::to_string((int)(-1 * prevActZ-0.5));
+	serialComm.sendString(messageZ);*/
+
+	std::cout << std::fixed;
+	std::cout << std::setprecision(1);
+	std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
+			  << std::setw(10) << "actY = " << prevActY << std::setw(10) << "msg = " << messageY << endl
+			  << std::setw(10) << "actZ = " << prevActZ << std::setw(10) << "msg = " << messageZ << endl
+			  << " in milli meters \n";
+
 
 }
 

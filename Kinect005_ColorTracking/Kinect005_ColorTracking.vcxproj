@@ -155,10 +155,14 @@ xcopy  "C:\glut" "$(OutDir)" /y  /d</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SerialComm.h" />
+    <ClInclude Include="SerialPort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SerialComm.cpp" />
+    <ClCompile Include="SerialPort.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

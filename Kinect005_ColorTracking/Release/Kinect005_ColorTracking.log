@@ -1,10 +1,10 @@
 ﻿  Source.cpp
   Generating code
-  15 of 153 functions ( 9.8%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+  12 of 460 functions ( 2.6%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    14 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  Kinect005_ColorTracking.vcxproj -> D:\Github\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe
+  Kinect005_ColorTracking.vcxproj -> D:\GitHub\Kinect005_ColorTracking\Release\Kinect005_ColorTracking.exe
   0 File(s) copied
   0 File(s) copied
   0 File(s) copied
