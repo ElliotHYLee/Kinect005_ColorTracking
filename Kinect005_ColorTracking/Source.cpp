@@ -100,6 +100,11 @@ void gl_DisplayCallback();
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+
+	messageX = "hi";
+	messageY = "hi";
+	messageZ = "hi";
+
 	lpTimeStep = 0;
 
 	relX = 0;
@@ -464,11 +469,11 @@ void depthFrameProcess(VideoFrameRef depthFrame)
 	if ((float)(*pixelAtTheColor[1]) != 0)
 	{
 		//CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZ);
-		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX-1), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[0]);
-		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[1]);
-		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX+1), (float)(relY), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[2]);
-		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY-1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[3]);
-		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX), (float)(relY+1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[4]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX-1), (float)(relY),   (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[0]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX),   (float)(relY),   (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[1]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX+1), (float)(relY),   (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[2]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX),   (float)(relY-1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[3]);
+		CoordinateConverter::convertDepthToWorld(depthSensor, (float)(relX),   (float)(relY+1), (float)(*pixelAtTheColor[0]), &actX, &actY, &actZArr[4]);
 
 		//std::cout << "relX = " << relX << " relY = " << relY << " relZ = " << *centerPixel << "\n";
 
@@ -499,71 +504,64 @@ void sendCoordinateMsg()
 	if (prevActX >= 0)
 	{
 		val = (int)(prevActX + 0.5);
-		if      (val < 10) messageX = "l100" + std::to_string(val);
-		else if	(val <100) messageX = "l10"  + std::to_string(val);
-		else if (val<1000) messageX = "l1"   + std::to_string(val);
+		if      (val < 10)  messageX = "l1000" + std::to_string(val);
+		else if	(val <100)  messageX = "l100"  + std::to_string(val);
+		else if (val<1000)  messageX = "l10"   + std::to_string(val);
+		else if (val<10000) messageX = "l1"    + std::to_string(val);
 	}
 	else
 	{
 		val = -1*(int)(prevActX - 0.5);
-		if      (val < 10) messageX = "l200" + std::to_string(val);
-		else if (val <100) messageX = "l20"  + std::to_string(val);
-		else if (val<1000) messageX = "l2"   + std::to_string(val);
+		if      (val < 10)  messageX = "l2000" + std::to_string(val);
+		else if (val <100)  messageX = "l200"  + std::to_string(val);
+		else if (val<1000)  messageX = "l20"   + std::to_string(val);
+		else if (val<10000) messageX = "l2"    + std::to_string(val);
 	}
 
 	if (prevActY >= 0)
 	{
 		val = (int)(prevActY + 0.5);
-		if      (val < 10) messageY = "l100" + std::to_string(val);
-		else if (val <100) messageY = "l10"  + std::to_string(val);
-		else if (val<1000) messageY = "l1"   + std::to_string(val);
+		if      (val < 10)  messageY = "l3000" + std::to_string(val);
+		else if (val <100)  messageY = "l300"  + std::to_string(val);
+		else if (val<1000)  messageY = "l30"   + std::to_string(val);
+		else if (val<10000) messageY = "l3"    + std::to_string(val);
 	}
 	else
 	{
 		val = -1 * (int)(prevActY - 0.5);
-		if      (val < 10) messageY = "l200" + std::to_string(val);
-		else if (val <100) messageY = "l20"  + std::to_string(val);
-		else if (val<1000) messageY = "l2"   + std::to_string(val);
+		if      (val < 10)  messageY = "l4000" + std::to_string(val);
+		else if (val <100)  messageY = "l400"  + std::to_string(val);
+		else if (val<1000)  messageY = "l40"   + std::to_string(val);
+		else if (val<10000) messageY = "l4"    + std::to_string(val);
 	}
 
 
 	if (prevActZ >= 0)
 	{
 		val = (int)(prevActZ + 0.5);
-		if      (val < 10) messageZ = "l100" + std::to_string(val);
-		else if (val <100) messageZ = "l10"  + std::to_string(val);
-		else if (val<1000) messageZ = "l1"   + std::to_string(val);
+		if      (val < 10)  messageZ = "l5000" + std::to_string(val);
+		else if (val <100)  messageZ = "l500"  + std::to_string(val);
+		else if (val<1000)  messageZ = "l50"   + std::to_string(val);
+		else if (val<10000) messageZ = "l5"    + std::to_string(val);
 	}
 	else
 	{
 		val = -1 * (int)(prevActZ - 0.5);
-		if      (val < 10) messageZ = "l200" + std::to_string(val);
-		else if (val <100) messageZ = "l20"  + std::to_string(val);
-		else if (val<1000) messageZ = "l2"   + std::to_string(val);
+		if      (val < 10)  messageZ = "l6000" + std::to_string(val);
+		else if (val <100)  messageZ = "l600"  + std::to_string(val);
+		else if (val<1000)  messageZ = "l60"   + std::to_string(val);
+		else if (val<10000) messageZ = "l6"    + std::to_string(val);
 	}
 	serialComm.sendString(messageX);
 	serialComm.sendString(messageY);
 	serialComm.sendString(messageZ);
-
-	/*
-	if (prevActX >= 0) messageX = "l1" + std::to_string((int) (prevActX+0.5));
-	else messageX = "l2" + std::to_string((int) (-1 * prevActX -0.5));
-	serialComm.sendString(messageX);
-
-	if (prevActY >= 0) messageY = "l3" + std::to_string((int)(prevActY +0.5));
-	else messageY = "l4" + std::to_string((int)(-1 * prevActY-0.5));
-	serialComm.sendString(messageY);
-
-	if (prevActZ >= 0) messageZ = "l5" + std::to_string((int)(prevActZ+0.5));
-	else messageZ = "l6" + std::to_string((int)(-1 * prevActZ-0.5));
-	serialComm.sendString(messageZ);*/
 
 	std::cout << std::fixed;
 	std::cout << std::setprecision(1);
 	std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
 			  << std::setw(10) << "actY = " << prevActY << std::setw(10) << "msg = " << messageY << endl
 			  << std::setw(10) << "actZ = " << prevActZ << std::setw(10) << "msg = " << messageZ << endl
-			  << " in milli meters \n";
+			  << std::setw(10) << " in milli meters \n";
 
 
 }
