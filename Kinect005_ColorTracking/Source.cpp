@@ -501,9 +501,9 @@ void sendCoordinateMsg()
 {
 	int val = 0;
 
-	if (prevActX >= 0)
+	if (prevActZ >= 0)
 	{
-		val = (int)(prevActX + 0.5);
+		val = (int)(prevActZ + 0.5);
 		if      (val < 10)  messageX = "l1000" + std::to_string(val);
 		else if	(val <100)  messageX = "l100"  + std::to_string(val);
 		else if (val<1000)  messageX = "l10"   + std::to_string(val);
@@ -511,16 +511,16 @@ void sendCoordinateMsg()
 	}
 	else
 	{
-		val = -1*(int)(prevActX - 0.5);
+		val = -1*(int)(prevActZ - 0.5);
 		if      (val < 10)  messageX = "l2000" + std::to_string(val);
 		else if (val <100)  messageX = "l200"  + std::to_string(val);
 		else if (val<1000)  messageX = "l20"   + std::to_string(val);
 		else if (val<10000) messageX = "l2"    + std::to_string(val);
 	}
 
-	if (prevActY >= 0)
+	if (prevActX >= 0)
 	{
-		val = (int)(prevActY + 0.5);
+		val = (int)(prevActX + 0.5);
 		if      (val < 10)  messageY = "l3000" + std::to_string(val);
 		else if (val <100)  messageY = "l300"  + std::to_string(val);
 		else if (val<1000)  messageY = "l30"   + std::to_string(val);
@@ -528,7 +528,7 @@ void sendCoordinateMsg()
 	}
 	else
 	{
-		val = -1 * (int)(prevActY - 0.5);
+		val = -1 * (int)(prevActX - 0.5);
 		if      (val < 10)  messageY = "l4000" + std::to_string(val);
 		else if (val <100)  messageY = "l400"  + std::to_string(val);
 		else if (val<1000)  messageY = "l40"   + std::to_string(val);
@@ -536,9 +536,9 @@ void sendCoordinateMsg()
 	}
 
 
-	if (prevActZ >= 0)
+	if (prevActY >= 0)
 	{
-		val = (int)(prevActZ + 0.5);
+		val = (int)(prevActY + 0.5);
 		if      (val < 10)  messageZ = "l5000" + std::to_string(val);
 		else if (val <100)  messageZ = "l500"  + std::to_string(val);
 		else if (val<1000)  messageZ = "l50"   + std::to_string(val);
@@ -546,7 +546,7 @@ void sendCoordinateMsg()
 	}
 	else
 	{
-		val = -1 * (int)(prevActZ - 0.5);
+		val = -1 * (int)(prevActY - 0.5);
 		if      (val < 10)  messageZ = "l6000" + std::to_string(val);
 		else if (val <100)  messageZ = "l600"  + std::to_string(val);
 		else if (val<1000)  messageZ = "l60"   + std::to_string(val);
