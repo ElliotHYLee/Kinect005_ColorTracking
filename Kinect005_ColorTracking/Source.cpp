@@ -185,7 +185,7 @@ void initiateUSBCommunication()
 		}
 	}
 
-	cout << "Type the port number to connect ex: 1" << endl;
+	cout << "Type the port number to send msg ex) 1" << endl;
 	cin >> comPortNumber;
 
 	// Serial Port Connection
