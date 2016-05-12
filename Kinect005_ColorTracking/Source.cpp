@@ -558,10 +558,14 @@ void sendCoordinateMsg()
 
 	std::cout << std::fixed;
 	std::cout << std::setprecision(1);
-	std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
+
+	std::cout << messageX << std::endl;
+	std::cout << messageY << std::endl;
+	std::cout << messageZ << std::endl;
+	/*std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
 			  << std::setw(10) << "actY = " << prevActY << std::setw(10) << "msg = " << messageY << endl
 			  << std::setw(10) << "actZ = " << prevActZ << std::setw(10) << "msg = " << messageZ << endl
-			  << std::setw(10) << " in milli meters \n";
+			  << std::setw(10) << " in milli meters \n";*/
 
 
 }
