@@ -536,7 +536,7 @@ void sendCoordinateMsg()
 		else if (val < 1000)  messageY = "l40" + std::to_string(val);
 		else if (val < 10000) messageY = "l4" + std::to_string(val);
 	}
-
+	
 
 	if (prevActY >= 0)
 	{
