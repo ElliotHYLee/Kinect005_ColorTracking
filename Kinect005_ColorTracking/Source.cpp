@@ -394,7 +394,7 @@ void gl_DisplayCallback()
 		
 		lpTimeStep = 0.95*lpTimeStep + 0.05*duration;
 
-		//std::cout << lpTimeStep << " milli second " << 1000/lpTimeStep << " Hz \n";
+		std::cout << lpTimeStep << " milli second " << 1000/lpTimeStep << " Hz \n";
 	}
 }
 
@@ -503,79 +503,40 @@ void sendCoordinateMsg()
 {
 	int val = 0;
 
-	if (prevActZ >= 0)
-	{
-		val = (int)(prevActZ + 0.5);
-		if (val < 10)  messageX = "l1000" + std::to_string(val);
-		else if (val < 100)  messageX = "l100" + std::to_string(val);
-		else if (val < 1000)  messageX = "l10" + std::to_string(val);
-		else if (val < 10000) messageX = "l1" + std::to_string(val);
-	}
-	else
-	{
-		val = -1 * (int)(prevActZ - 0.5);
-		if (val < 10)  messageX = "l2000" + std::to_string(val);
-		else if (val < 100)  messageX = "l200" + std::to_string(val);
-		else if (val < 1000)  messageX = "l20" + std::to_string(val);
-		else if (val < 10000) messageX = "l2" + std::to_string(val);
-	}
-
-	if (prevActX >= 0)
-	{
-		val = (int)(prevActX + 0.5);
-		if (val < 10)  messageY = "l3000" + std::to_string(val);
-		else if (val < 100)  messageY = "l300" + std::to_string(val);
-		else if (val < 1000)  messageY = "l30" + std::to_string(val);
-		else if (val < 10000) messageY = "l3" + std::to_string(val);
-	}
-	else
-	{
-		val = -1 * (int)(prevActX - 0.5);
-		if (val < 10)  messageY = "l4000" + std::to_string(val);
-		else if (val < 100)  messageY = "l400" + std::to_string(val);
-		else if (val < 1000)  messageY = "l40" + std::to_string(val);
-		else if (val < 10000) messageY = "l4" + std::to_string(val);
-	}
+	if (prevActZ >= 0) val = (int)(prevActZ + 0.5);
+	else val =  (int)(prevActZ - 0.5);
+	messageX = "A" + std::to_string(val);
 	
+	if (prevActX >= 0)val = (int)(prevActX + 0.5);
+	else val = (int)(prevActX - 0.5);
+	messageY = "B" + std::to_string(val);
 
-	if (prevActY >= 0)
-	{
-		val = (int)(prevActY + 0.5);
-		if (val < 10)  messageZ = "l5000" + std::to_string(val);
-		else if (val < 100)  messageZ = "l500" + std::to_string(val);
-		else if (val < 1000)  messageZ = "l50" + std::to_string(val);
-		else if (val < 10000) messageZ = "l5" + std::to_string(val);
-	}
-	else
-	{
-		val = -1 * (int)(prevActY - 0.5);
-		if (val < 10)  messageZ = "l6000" + std::to_string(val);
-		else if (val < 100)  messageZ = "l600" + std::to_string(val);
-		else if (val < 1000)  messageZ = "l60" + std::to_string(val);
-		else if (val < 10000) messageZ = "l6" + std::to_string(val);
-	}
+	if (prevActY >= 0) val = (int)(prevActY + 0.5);
+	else val =  (int)(prevActY - 0.5);
+	messageZ = "C" + std::to_string(val);
 
 	if (!isDetected)
 	{
-		messageX = "112000";
-		messageY = "l30000";
-		messageZ = "l50000";
+		messageX = "A2000";
+		messageY = "B0";
+		messageZ = "C0";
 	}
 
-	serialComm.sendString(messageX);
-	serialComm.sendString(messageY);
-	serialComm.sendString(messageZ);
+	serialComm.sendString(";" + messageX);
+	serialComm.sendString(";" + messageY);
+	serialComm.sendString(";" + messageZ);
+	serialComm.sendCommand(';');
 
 	std::cout << std::fixed;
 	std::cout << std::setprecision(1);
 
-	std::cout << messageX << std::endl;
-	std::cout << messageY << std::endl;
-	std::cout << messageZ << std::endl;
-	/*std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
+	//std::cout << messageX << std::endl;
+	//std::cout << messageY << std::endl;
+	//std::cout << messageZ << std::endl;
+	std::cout << std::setw(10) << "actX = " << prevActX << std::setw(10) << "msg = " << messageX << endl
 			  << std::setw(10) << "actY = " << prevActY << std::setw(10) << "msg = " << messageY << endl
 			  << std::setw(10) << "actZ = " << prevActZ << std::setw(10) << "msg = " << messageZ << endl
-			  << std::setw(10) << " in milli meters \n";*/
+			  << std::setw(10) << " in milli meters \n";
 
 
 }
