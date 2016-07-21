@@ -447,6 +447,7 @@ void colorFrameProcess(VideoFrameRef colorFrame)
 	imgTmp.create(colorFrame.getHeight(), colorFrame.getWidth(), CV_8UC3);
 	memcpy(imgTmp.data, imageBuffer, 3 * colorFrame.getHeight()*colorFrame.getWidth()*sizeof(uint8_t));
 	cv::cvtColor(imgTmp, imgTmp, CV_BGR2RGB); //this will put colors right
+	
 	colorDetection(&imgTmp);
 
 	//std::cout << "relX = " << relX << " relY = " << relY << "\n";
